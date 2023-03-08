@@ -1,0 +1,27 @@
+name: DockerHub CI
+
+on: [ push ]
+
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: nokotan/siv3d-compiler-server
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Compiler
+        if: ${{ !contains(github.ref, 'tags/') }}
+        uses: docker/build-push-action@v2
+        with:
+          push: false
+          context: .
+          tags: ${{ env.IMAGE_NAME }}:latest
