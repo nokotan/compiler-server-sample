@@ -1,4 +1,4 @@
-FROM nokotan/emscripten-compiler-server:3.1.20
+FROM nokotan/emscripten-compiler-server:latest
 
 COPY sysroot/ /
 
